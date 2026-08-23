@@ -1,4 +1,5 @@
-import html2pdf from 'html2pdf.js';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 export const generatePDF = async (elementId, filename = 'Resume.pdf') => {
   const element = document.getElementById(elementId);
@@ -10,55 +11,82 @@ export const generatePDF = async (elementId, filename = 'Resume.pdf') => {
   // Clean formatted file name
   const safeFilename = filename.endsWith('.pdf') ? filename : `${filename}.pdf`;
 
-  const opt = {
-    margin:       0,
-    filename:     safeFilename,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { 
-      scale: 2, 
-      useCORS: true, 
-      letterRendering: true,
-      scrollX: 0,
-      scrollY: 0,
-      onclone: (clonedDoc) => {
-        const clonedElement = clonedDoc.getElementById(elementId);
-        if (clonedElement) {
-          // Reset zoom transform on parent so canvas renders full-scale A4
-          if (clonedElement.parentElement) {
-            clonedElement.parentElement.style.transform = 'none';
-          }
-          clonedElement.style.transform = 'none';
-          clonedElement.style.margin = '0 auto';
-          clonedElement.style.boxShadow = 'none';
+  // 1. Temporarily sanitize all document <style> tags to strip oklab(), oklch(), color-mix() before html2canvas parses styleSheets
+  const styleTags = Array.from(document.querySelectorAll('style'));
+  const originalStyleContents = styleTags.map(tag => tag.textContent);
 
-          // Fix oklch color error in html2canvas by converting to computed RGB
-          const allElements = clonedElement.querySelectorAll('*');
-          allElements.forEach((el) => {
-            const style = window.getComputedStyle(el);
-            ['color', 'backgroundColor', 'borderColor'].forEach((prop) => {
-              const val = style[prop];
-              if (val && val.includes('oklch')) {
-                // Set explicit fallback color if oklch detected
-                if (prop === 'backgroundColor') el.style.backgroundColor = '#ffffff';
-                else if (prop === 'color') el.style.color = '#0f172a';
-                else if (prop === 'borderColor') el.style.borderColor = '#e2e8f0';
-              }
-            });
-          });
-        }
+  styleTags.forEach(tag => {
+    if (tag.textContent) {
+      if (tag.textContent.includes('oklab') || tag.textContent.includes('oklch') || tag.textContent.includes('color-mix')) {
+        tag.textContent = tag.textContent
+          .replace(/oklab\([^)]+\)/g, 'inherit')
+          .replace(/oklch\([^)]+\)/g, 'inherit')
+          .replace(/color-mix\([^)]+\)/g, 'inherit');
       }
-    },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-  };
+    }
+  });
+
+  // Store original transforms
+  const originalTransform = element.style.transform;
+  const parentElement = element.parentElement;
+  const parentTransform = parentElement ? parentElement.style.transform : '';
 
   try {
-    await html2pdf().set(opt).from(element).save();
+    // 2. Temporarily reset zoom scaling so canvas captures full-size A4 paper
+    if (parentElement) {
+      parentElement.style.transform = 'none';
+    }
+    element.style.transform = 'none';
+
+    // 3. Render element to high-res canvas (scale 2 = 300 DPI clarity)
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff',
+      scrollX: 0,
+      scrollY: 0
+    });
+
+    // 4. Restore preview zoom transforms in UI immediately
+    element.style.transform = originalTransform;
+    if (parentElement) {
+      parentElement.style.transform = parentTransform;
+    }
+
+    // 5. Restore original <style> contents in document
+    styleTags.forEach((tag, idx) => {
+      tag.textContent = originalStyleContents[idx];
+    });
+
+    // 6. Convert canvas to JPEG image string
+    const imgData = canvas.toDataURL('image/jpeg', 0.98);
+
+    // 7. Create A4 PDF (210mm x 297mm)
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    // 8. Add image fitting full A4 dimensions
+    pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+
+    // 9. Save and trigger direct browser .pdf file download
+    pdf.save(safeFilename);
     return true;
   } catch (error) {
-    console.error('PDF Generation error:', error);
-    // Print fallback
-    window.print();
-    return true;
+    console.error('Direct PDF Generation error:', error);
+
+    // Restore transforms and style tags if error occurs
+    element.style.transform = originalTransform;
+    if (parentElement) {
+      parentElement.style.transform = parentTransform;
+    }
+    styleTags.forEach((tag, idx) => {
+      tag.textContent = originalStyleContents[idx];
+    });
+
+    throw error;
   }
 };

@@ -14,9 +14,9 @@ export const ClassicTemplate = ({ data }) => {
   } = data || {};
 
   return (
-    <div className="p-8 text-slate-800 text-sm leading-relaxed font-serif min-h-full">
+    <div className="p-8 text-slate-800 text-sm leading-relaxed font-serif min-h-full bg-white">
       {/* Centered Traditional Header */}
-      <header className="text-center border-b-2 border-slate-900 pb-4 mb-6">
+      <header className="text-center pb-4 mb-6">
         <h1 className="text-3xl font-bold tracking-wide uppercase text-slate-900 mb-1">
           {personalInfo.name || 'Your Full Name'}
         </h1>
@@ -25,7 +25,7 @@ export const ClassicTemplate = ({ data }) => {
         </p>
 
         {/* Contact Links */}
-        <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 text-xs text-slate-700 font-sans">
+        <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 text-xs text-slate-700 font-sans mb-3">
           {personalInfo.email && <span>{personalInfo.email}</span>}
           {personalInfo.email && personalInfo.phone && <span>•</span>}
           {personalInfo.phone && <span>{personalInfo.phone}</span>}
@@ -50,25 +50,33 @@ export const ClassicTemplate = ({ data }) => {
             </>
           )}
         </div>
+
+        <div className="w-full h-[2px] bg-slate-900" />
       </header>
 
       {/* Summary */}
       {summary && (
         <section className="mb-5">
-          <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 border-b border-slate-300 pb-0.5 mb-2">
-            Summary
-          </h2>
-          <p className="text-xs leading-relaxed text-slate-800 italic">{summary}</p>
+          <div className="mb-2">
+            <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 mb-1">
+              Summary
+            </h2>
+            <div className="w-full h-[1px] bg-slate-300" />
+          </div>
+          <p className="text-xs leading-relaxed text-slate-800 italic pt-1">{summary}</p>
         </section>
       )}
 
       {/* Experience */}
       {experience && experience.length > 0 && (
         <section className="mb-5">
-          <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 border-b border-slate-300 pb-0.5 mb-2">
-            Professional Experience
-          </h2>
-          <div className="space-y-3.5">
+          <div className="mb-2">
+            <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 mb-1">
+              Professional Experience
+            </h2>
+            <div className="w-full h-[1px] bg-slate-300" />
+          </div>
+          <div className="space-y-3.5 pt-1">
             {experience.map((exp, index) => (
               <div key={exp.id || index}>
                 <div className="flex justify-between items-baseline font-bold text-xs text-slate-900">
@@ -92,10 +100,13 @@ export const ClassicTemplate = ({ data }) => {
       {/* Projects */}
       {projects && projects.length > 0 && (
         <section className="mb-5">
-          <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 border-b border-slate-300 pb-0.5 mb-2">
-            Projects
-          </h2>
-          <div className="space-y-3">
+          <div className="mb-2">
+            <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 mb-1">
+              Projects
+            </h2>
+            <div className="w-full h-[1px] bg-slate-300" />
+          </div>
+          <div className="space-y-3 pt-1">
             {projects.map((proj, index) => (
               <div key={proj.id || index}>
                 <div className="flex justify-between items-baseline text-xs font-bold text-slate-900">
@@ -120,10 +131,13 @@ export const ClassicTemplate = ({ data }) => {
       {/* Education */}
       {education && education.length > 0 && (
         <section className="mb-5">
-          <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 border-b border-slate-300 pb-0.5 mb-2">
-            Education
-          </h2>
-          <div className="space-y-2.5">
+          <div className="mb-2">
+            <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 mb-1">
+              Education
+            </h2>
+            <div className="w-full h-[1px] bg-slate-300" />
+          </div>
+          <div className="space-y-2.5 pt-1">
             {education.map((edu, index) => (
               <div key={edu.id || index}>
                 <div className="flex justify-between items-baseline text-xs font-bold text-slate-900">
@@ -141,10 +155,13 @@ export const ClassicTemplate = ({ data }) => {
       {/* Skills */}
       {skills && skills.length > 0 && (
         <section className="mb-5">
-          <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 border-b border-slate-300 pb-0.5 mb-2">
-            Technical & Professional Skills
-          </h2>
-          <p className="text-xs font-sans text-slate-800 leading-normal">
+          <div className="mb-2">
+            <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 mb-1">
+              Technical & Professional Skills
+            </h2>
+            <div className="w-full h-[1px] bg-slate-300" />
+          </div>
+          <p className="text-xs font-sans text-slate-800 leading-normal pt-1">
             {skills.join(' • ')}
           </p>
         </section>
@@ -154,10 +171,13 @@ export const ClassicTemplate = ({ data }) => {
       <div className="grid grid-cols-2 gap-6">
         {achievements && achievements.length > 0 && (
           <section>
-            <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 border-b border-slate-300 pb-0.5 mb-2">
-              Achievements
-            </h2>
-            <ul className="list-disc list-inside text-xs text-slate-700 font-sans space-y-0.5">
+            <div className="mb-2">
+              <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 mb-1">
+                Achievements
+              </h2>
+              <div className="w-full h-[1px] bg-slate-300" />
+            </div>
+            <ul className="list-disc list-inside text-xs text-slate-700 font-sans space-y-0.5 pt-1">
               {achievements.map((ach, idx) => (
                 <li key={idx}>{ach}</li>
               ))}
@@ -166,10 +186,13 @@ export const ClassicTemplate = ({ data }) => {
         )}
         {certifications && certifications.length > 0 && (
           <section>
-            <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 border-b border-slate-300 pb-0.5 mb-2">
-              Certifications
-            </h2>
-            <div className="text-xs font-sans space-y-1">
+            <div className="mb-2">
+              <h2 className="text-xs uppercase font-bold tracking-widest text-slate-900 mb-1">
+                Certifications
+              </h2>
+              <div className="w-full h-[1px] bg-slate-300" />
+            </div>
+            <div className="text-xs font-sans space-y-1 pt-1">
               {certifications.map((cert, idx) => (
                 <div key={idx}>
                   <span className="font-bold text-slate-800">{cert.name}</span> — <span className="text-slate-600">{cert.organization}</span>

@@ -65,7 +65,8 @@ export const MinimalTemplate = ({ data }) => {
             {skills.map((skill, index) => (
               <span
                 key={index}
-                className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-800"
+                className="px-2.5 py-1 rounded-md text-[11px] font-semibold border"
+                style={{ backgroundColor: '#f1f5f9', color: '#1e293b', borderColor: '#cbd5e1' }}
               >
                 {skill}
               </span>

@@ -16,7 +16,7 @@ export const ModernTemplate = ({ data }) => {
   } = data || {};
 
   return (
-    <div className="p-8 text-slate-800 text-sm leading-relaxed font-sans min-h-full">
+    <div className="p-8 text-slate-800 text-sm leading-relaxed font-sans min-h-full bg-white">
       {/* Top Banner Accent */}
       <div 
         className="w-full h-2 rounded-t-sm mb-6" 
@@ -24,13 +24,13 @@ export const ModernTemplate = ({ data }) => {
       />
 
       {/* Header / Personal Information */}
-      <header className="border-b border-slate-200 pb-5 mb-6">
+      <header className="mb-6">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-1">
               {personalInfo.name || 'Your Full Name'}
             </h1>
-            <p className="text-lg font-medium text-slate-600 mb-3" style={{ color: accentColor }}>
+            <p className="text-lg font-medium mb-3" style={{ color: accentColor }}>
               {personalInfo.title || 'Professional Title'}
             </p>
           </div>
@@ -44,7 +44,7 @@ export const ModernTemplate = ({ data }) => {
         </div>
 
         {/* Contact Strip */}
-        <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-600">
+        <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-600 mb-3">
           {personalInfo.email && (
             <span className="flex items-center gap-1">
               <Mail className="w-3.5 h-3.5 text-slate-400" />
@@ -88,25 +88,34 @@ export const ModernTemplate = ({ data }) => {
             </span>
           )}
         </div>
+
+        {/* Header Divider Line */}
+        <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
       </header>
 
       {/* Summary */}
       {summary && (
         <section className="mb-6">
-          <h2 className="text-xs uppercase font-bold tracking-wider mb-2 border-b border-slate-200 pb-1" style={{ color: accentColor }}>
-            Professional Summary
-          </h2>
-          <p className="text-slate-700 text-xs leading-relaxed whitespace-pre-line">{summary}</p>
+          <div className="mb-3">
+            <h2 className="text-xs uppercase font-bold tracking-wider mb-2" style={{ color: accentColor }}>
+              Professional Summary
+            </h2>
+            <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
+          </div>
+          <p className="text-slate-700 text-xs leading-relaxed whitespace-pre-line pt-1">{summary}</p>
         </section>
       )}
 
       {/* Experience */}
       {experience && experience.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-xs uppercase font-bold tracking-wider mb-3 border-b border-slate-200 pb-1" style={{ color: accentColor }}>
-            Work Experience
-          </h2>
-          <div className="space-y-4">
+          <div className="mb-3">
+            <h2 className="text-xs uppercase font-bold tracking-wider mb-2" style={{ color: accentColor }}>
+              Work Experience
+            </h2>
+            <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
+          </div>
+          <div className="space-y-4 pt-1">
             {experience.map((exp, index) => (
               <div key={exp.id || index}>
                 <div className="flex justify-between items-baseline mb-0.5">
@@ -120,7 +129,7 @@ export const ModernTemplate = ({ data }) => {
                   {exp.location && <span className="text-[11px] text-slate-400">{exp.location}</span>}
                 </div>
                 {exp.description && (
-                  <p className="text-slate-700 text-xs leading-relaxed whitespace-pre-line pl-2 border-l-2 border-slate-100">
+                  <p className="text-slate-700 text-xs leading-relaxed whitespace-pre-line pl-2 border-l-2 border-slate-200">
                     {exp.description}
                   </p>
                 )}
@@ -133,10 +142,13 @@ export const ModernTemplate = ({ data }) => {
       {/* Projects */}
       {projects && projects.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-xs uppercase font-bold tracking-wider mb-3 border-b border-slate-200 pb-1" style={{ color: accentColor }}>
-            Projects
-          </h2>
-          <div className="space-y-3.5">
+          <div className="mb-3">
+            <h2 className="text-xs uppercase font-bold tracking-wider mb-2" style={{ color: accentColor }}>
+              Projects
+            </h2>
+            <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
+          </div>
+          <div className="space-y-3.5 pt-1">
             {projects.map((proj, index) => (
               <div key={proj.id || index}>
                 <div className="flex justify-between items-baseline mb-0.5">
@@ -171,10 +183,13 @@ export const ModernTemplate = ({ data }) => {
       {/* Education */}
       {education && education.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-xs uppercase font-bold tracking-wider mb-3 border-b border-slate-200 pb-1" style={{ color: accentColor }}>
-            Education
-          </h2>
-          <div className="space-y-3">
+          <div className="mb-3">
+            <h2 className="text-xs uppercase font-bold tracking-wider mb-2" style={{ color: accentColor }}>
+              Education
+            </h2>
+            <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
+          </div>
+          <div className="space-y-3 pt-1">
             {education.map((edu, index) => (
               <div key={edu.id || index}>
                 <div className="flex justify-between items-baseline">
@@ -195,14 +210,23 @@ export const ModernTemplate = ({ data }) => {
       {/* Skills */}
       {skills && skills.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-xs uppercase font-bold tracking-wider mb-2 border-b border-slate-200 pb-1" style={{ color: accentColor }}>
-            Skills & Expertise
-          </h2>
-          <div className="flex flex-wrap gap-1.5 pt-1">
+          <div className="mb-3">
+            <h2 className="text-xs uppercase font-bold tracking-wider mb-2" style={{ color: accentColor }}>
+              Skills & Expertise
+            </h2>
+            <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
+          </div>
+          <div className="flex flex-wrap gap-2 pt-2">
             {skills.map((skill, index) => (
               <span
                 key={index}
-                className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200"
+                className="px-2.5 py-1 rounded text-[11px] font-semibold"
+                style={{
+                  backgroundColor: '#f1f5f9',
+                  color: '#1e293b',
+                  border: '1px solid #cbd5e1',
+                  display: 'inline-block'
+                }}
               >
                 {skill}
               </span>
@@ -216,10 +240,13 @@ export const ModernTemplate = ({ data }) => {
         {/* Achievements */}
         {achievements && achievements.length > 0 && (
           <section>
-            <h2 className="text-xs uppercase font-bold tracking-wider mb-2 border-b border-slate-200 pb-1" style={{ color: accentColor }}>
-              Achievements
-            </h2>
-            <ul className="list-disc list-inside space-y-1 text-slate-700 text-xs">
+            <div className="mb-3">
+              <h2 className="text-xs uppercase font-bold tracking-wider mb-2" style={{ color: accentColor }}>
+                Achievements
+              </h2>
+              <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
+            </div>
+            <ul className="list-disc list-inside space-y-1 text-slate-700 text-xs pt-1">
               {achievements.map((ach, index) => (
                 <li key={index} className="leading-snug">{ach}</li>
               ))}
@@ -230,10 +257,13 @@ export const ModernTemplate = ({ data }) => {
         {/* Certifications */}
         {certifications && certifications.length > 0 && (
           <section>
-            <h2 className="text-xs uppercase font-bold tracking-wider mb-2 border-b border-slate-200 pb-1" style={{ color: accentColor }}>
-              Certifications
-            </h2>
-            <div className="space-y-2">
+            <div className="mb-3">
+              <h2 className="text-xs uppercase font-bold tracking-wider mb-2" style={{ color: accentColor }}>
+                Certifications
+              </h2>
+              <hr style={{ border: 'none', borderTop: '1.5px solid #cbd5e1', margin: 0, padding: 0 }} />
+            </div>
+            <div className="space-y-2 pt-1">
               {certifications.map((cert, index) => (
                 <div key={cert.id || index} className="text-xs">
                   <p className="font-semibold text-slate-800">{cert.name}</p>
